@@ -1,0 +1,6 @@
+<% @sections.sort.each do |section,values| -%>
+[<%= section %>]
+<% values.sort.each do |key,value| %>
+<%= key %>: <%= value %>
+<% end %>
+<% end %>
