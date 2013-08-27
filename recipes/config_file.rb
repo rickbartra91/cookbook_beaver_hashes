@@ -3,8 +3,9 @@ sections = {}
 conf = sections['beaver'] = {}
 hash = node.beaver_hashes.output.to_hash
 logstash_server_ip = node.discover.logstash.ipaddress
+output_type = node['beaver_hashes']['output']['type']
 
-case node.beaver_hashes.output.type
+case output_type
 when "rabbitmq" then
   host = hash['host'] || logstash_server_ip || 'localhost'
   conf['rabbitmq_host'] = hash['host'] if hash.has_key?('host')
@@ -29,7 +30,7 @@ when "zmq" then
   conf['zeromq_address'] = "tcp://#{host}:#{port}"
 when 'stdout'
 else
-  raise "output type not supported: #{node.beaver_hashes.output.type}"
+  raise "output type not supported: #{output_type}"
 end
 
 node.beaver_hashes.inputs.each do |path, opts|
