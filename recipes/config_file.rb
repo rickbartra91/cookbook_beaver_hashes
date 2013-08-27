@@ -29,7 +29,7 @@ when "zmq" then
   conf['zeromq_address'] = "tcp://#{host}:#{port}"
 when 'stdout'
 else
-  log("output type not supported: #{name}") { level :warn }
+  raise "output type not supported: #{node.beaver_hashes.output.type}"
 end
 
 node.beaver_hashes.inputs.each do |path, opts|
