@@ -1,7 +1,9 @@
+# encoding: UTF-8
+#
 basedir   = node['beaver_hashes']['basedir']
-conf_file = node.beaver_hashes.config_file
-log_file  = node.beaver_hashes.log_file
-pid_file  = node.beaver_hashes.pid_file
+conf_file = 'node.beaver_hashes.config_file'
+log_file  = 'node.beaver_hashes.log_file'
+pid_file  = 'node.beaver_hashes.pid_file'
 
 # create some needed directories and files
 directory basedir do
@@ -13,17 +15,17 @@ end
 [
   File.dirname(conf_file),
   File.dirname(log_file),
-  File.dirname(pid_file),
+  File.dirname(pid_file)
 ].each do |dir|
   directory dir do
     owner node['logstash']['user']
     group node['logstash']['group']
     recursive true
-    not_if do ::File.exists?(dir) end
+    not_if ::File.exist?(dir)
   end
 end
 
-[ log_file, pid_file ].each do |f|
+[log_file, pid_file].each do |f|
   file f do
     action :touch
     owner node['logstash']['user']
